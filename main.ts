@@ -1,5 +1,9 @@
+#!/usr/bin/env node
+
+
+
+
 import inquirer from "inquirer";
-import { cursorTo } from "readline";
 
 class Person {
   name: string;

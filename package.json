@@ -1,15 +1,16 @@
 {
-  "name": "student-management-system-2",
-  "version": "1.0.0",
+  "name": "@saher2006/student-management-system-2",
+  "version": "1.0.4",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "type": "module",
+  "bin": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "node": "^18.20.0"
   },
