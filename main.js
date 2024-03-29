@@ -190,40 +190,45 @@ do {
                     type: "number",
                     name: "studentID",
                     message: "Enter the id you want to edit : ",
-                }
+                },
             ]);
             const { studentID } = editStudent;
             const findStudentIndex = studentsArray.findIndex((student) => student.id == studentID);
             if (findStudentIndex !== -1) {
                 const currentObj = studentsArray[findStudentIndex];
-                const editStudent = await inquirer.prompt([{
+                const editStudent = await inquirer.prompt([
+                    {
                         type: "string",
                         name: "name",
                         message: "Enter  name : ",
-                        default: currentObj.name
-                    }, {
+                        default: currentObj.name,
+                    },
+                    {
                         type: "number",
                         name: "age",
                         message: "Enter age :",
-                        default: currentObj.age
+                        default: currentObj.age,
                     },
                     {
                         type: "input",
                         name: "contactInfo",
                         message: "Enter contact Info",
-                        default: currentObj.contactinfo
-                    }, {
+                        default: currentObj.contactinfo,
+                    },
+                    {
                         type: "input",
                         name: "address",
                         message: "Enter contact Info",
-                        default: currentObj.address
-                    }, {
+                        default: currentObj.address,
+                    },
+                    {
                         type: "list",
                         name: "gender",
                         message: "Select gender :",
                         choices: ["male", "female"],
-                        default: currentObj.gender
-                    }]);
+                        default: currentObj.gender,
+                    },
+                ]);
                 const { name, age, contactInfo, address, gender } = editStudent;
                 studentsArray[findStudentIndex].name = name;
                 studentsArray[findStudentIndex].gender = gender;
@@ -235,43 +240,51 @@ do {
         }
         if (editOptions == "Edit Instructor") {
             console.table(instructorArray);
-            const editInstructorId = await inquirer.prompt([{
+            const editInstructorId = await inquirer.prompt([
+                {
                     type: "number",
                     name: "instructorId",
-                    message: "Enter instructor id you want to edit"
-                }]);
+                    message: "Enter instructor id you want to edit",
+                },
+            ]);
             const findInstructorIndex = instructorArray.findIndex((instructor) => instructor.id);
             console.log(findInstructorIndex);
             if (findInstructorIndex !== -1) {
                 const currentObj2 = instructorArray[findInstructorIndex];
-                const editInstructor = await inquirer.prompt([{
+                const editInstructor = await inquirer.prompt([
+                    {
                         type: "string",
                         name: "instructorName",
                         message: "Enter instructor name",
-                        default: currentObj2.name
-                    }, {
+                        default: currentObj2.name,
+                    },
+                    {
                         type: "number",
                         name: "instructorAge",
                         message: "Enter instructor age ",
-                        default: currentObj2.age
-                    }, {
+                        default: currentObj2.age,
+                    },
+                    {
                         type: "number",
                         name: "instructorAge",
                         message: "Enter instructor age ",
-                        default: currentObj2.age
-                    }, {
+                        default: currentObj2.age,
+                    },
+                    {
                         type: "number",
                         name: "instructorSalary",
                         message: "Enter instructor salary ",
-                        default: currentObj2.salary
-                    }, {
+                        default: currentObj2.salary,
+                    },
+                    {
                         type: "list",
                         name: "instructorGender",
                         message: "Select instructor gender : ",
                         default: currentObj2.gender,
-                        choices: ["male", "Female"]
-                    }]);
-                const { instructorAge, instructorName, instructorSalary, instructorGender } = editInstructor;
+                        choices: ["male", "Female"],
+                    },
+                ]);
+                const { instructorAge, instructorName, instructorSalary, instructorGender, } = editInstructor;
                 instructorArray[findInstructorIndex].name = instructorName;
                 instructorArray[findInstructorIndex].age = instructorAge;
                 instructorArray[findInstructorIndex].salary = instructorSalary;
@@ -282,26 +295,31 @@ do {
         }
         if (editOptions == "Edit Courses") {
             console.table(coursesArray);
-            const courseEdit = await inquirer.prompt([{
+            const courseEdit = await inquirer.prompt([
+                {
                     type: "number",
                     name: "editCourseId",
-                    message: "Enter the course Id you wants to edit "
-                }]);
+                    message: "Enter the course Id you wants to edit ",
+                },
+            ]);
             const { editCourseId } = courseEdit;
             const indexOfEditCourse = coursesArray.findIndex((course) => course.id == editCourseId);
             if (indexOfEditCourse !== -1) {
                 const currentObj3 = coursesArray[indexOfEditCourse];
-                const editCourseAnswers = await inquirer.prompt([{
+                const editCourseAnswers = await inquirer.prompt([
+                    {
                         type: "string",
                         name: "editCourseName",
                         message: "Enter Course Name : ",
-                        default: currentObj3.name
-                    }, {
+                        default: currentObj3.name,
+                    },
+                    {
                         type: "string",
                         name: "editCourseTimings",
                         message: "Enter Course Timings: ",
-                        default: currentObj3.timings
-                    }]);
+                        default: currentObj3.timings,
+                    },
+                ]);
                 const { editCourseName, editCourseTimings } = editCourseAnswers;
                 coursesArray[indexOfEditCourse].name = editCourseName;
                 coursesArray[indexOfEditCourse] = editCourseTimings;
@@ -313,25 +331,30 @@ do {
         }
     }
     if (options == "View") {
-        const viewoptions = await inquirer.prompt([{
+        const viewoptions = await inquirer.prompt([
+            {
                 type: "list",
                 name: "viewOptionsList",
                 message: "Which operation you want to perform ",
-                choices: ["View Student", "View Instructor", "View Courses"]
-            }]);
+                choices: ["View Student", "View Instructor", "View Courses"],
+            },
+        ]);
         const { viewOptionsList } = viewoptions;
         if (viewOptionsList == "View Student") {
             console.table(studentsArray);
-            const viewstudent = await inquirer.prompt([{
+            const viewstudent = await inquirer.prompt([
+                {
                     type: "number",
                     name: "studentId2",
-                    message: "Enter student id to enroll in Courses :"
-                }, {
+                    message: "Enter student id to enroll in Courses :",
+                },
+                {
                     type: "list",
                     name: "courseSelect",
                     message: "Select course in which you wants to enroll : ",
-                    choices: coursesArray.map((course) => course.name)
-                }]);
+                    choices: coursesArray.map((course) => course.name),
+                },
+            ]);
             const { studentId2, courseSelect } = viewstudent;
             const findStudentIndex2 = studentsArray.findIndex((student) => student.id == studentId2);
             if (findStudentIndex2 !== -1) {
@@ -344,16 +367,19 @@ do {
             }
         }
         if (viewOptionsList == "View Instructor") {
-            const instructorView = await inquirer.prompt([{
+            const instructorView = await inquirer.prompt([
+                {
                     type: "number",
                     name: "viewInstructorId",
-                    message: "Enter instructor Id to perform action : "
-                }, {
+                    message: "Enter instructor Id to perform action : ",
+                },
+                {
                     type: "list",
                     name: "assignCourses",
                     message: "Select course to assign instructor :",
-                    choices: coursesArray.map((course) => course.name)
-                }]);
+                    choices: coursesArray.map((course) => course.name),
+                },
+            ]);
             const { viewInstructorId, assignCourses } = instructorView;
             const findViewInstructorId = instructorArray.findIndex((instructor) => instructor.id == viewInstructorId);
             if (findViewInstructorId !== -1) {
@@ -364,25 +390,30 @@ do {
             }
         }
         if (viewOptionsList == "View Courses") {
-            const addStudAndInstruc = await inquirer.prompt([{
+            const addStudAndInstruc = await inquirer.prompt([
+                {
                     type: "list",
                     name: "studentAndInstructor",
                     message: "Select operartion you want to perform",
-                    choices: ["Add Student", "Add teacher"]
-                }]);
+                    choices: ["Add Student", "Add teacher"],
+                },
+            ]);
             const { studentAndInstructor } = addStudAndInstruc;
             if (studentAndInstructor == "Add Student") {
                 console.table(coursesArray);
-                const addStudentInCourses = await inquirer.prompt([{
+                const addStudentInCourses = await inquirer.prompt([
+                    {
                         type: "number",
                         name: "courseId",
-                        message: "Enter course Id : "
-                    }, {
+                        message: "Enter course Id : ",
+                    },
+                    {
                         type: "list",
                         name: "addstudentChoices",
                         message: "Select student to enroll in courses : ",
-                        choices: studentsArray.map((student) => student.name)
-                    }]);
+                        choices: studentsArray.map((student) => student.name),
+                    },
+                ]);
                 const { courseId, addstudentChoices } = addStudentInCourses;
                 const findIndexofCourse = coursesArray.findIndex((course) => course.id == courseId);
                 if (findIndexofCourse !== -1) {
@@ -393,16 +424,19 @@ do {
             }
             if (studentAndInstructor == "Add teacher") {
                 console.table(coursesArray);
-                const addTeacherInCourses = await inquirer.prompt([{
+                const addTeacherInCourses = await inquirer.prompt([
+                    {
                         type: "number",
                         name: "courseId",
-                        message: "Enter course Id : "
-                    }, {
+                        message: "Enter course Id : ",
+                    },
+                    {
                         type: "list",
                         name: "addTeacherChoices",
                         message: "Select Teacher to add in courses : ",
-                        choices: instructorArray.map((student) => student.name)
-                    }]);
+                        choices: instructorArray.map((student) => student.name),
+                    },
+                ]);
                 const { courseId, addTeacherChoices } = addTeacherInCourses;
                 const findIndexofCourse = coursesArray.findIndex((course) => course.id == courseId);
                 if (findIndexofCourse !== -1) {
@@ -414,12 +448,14 @@ do {
         }
     }
     if (options == "Delete") {
-        const deleteOptions = await inquirer.prompt([{
+        const deleteOptions = await inquirer.prompt([
+            {
                 type: "list",
                 name: "optionsForDelete",
                 message: "Select action to perform :",
-                choices: ["Student", "Instructor", "Courses"]
-            }]);
+                choices: ["Student", "Instructor", "Courses"],
+            },
+        ]);
         const { optionsForDelete } = deleteOptions;
         if (optionsForDelete == "Student") {
             console.table(studentsArray);
@@ -427,8 +463,8 @@ do {
                 {
                     type: "number",
                     name: "deleteStudentId",
-                    message: "Enter Student Id to delete : "
-                }
+                    message: "Enter Student Id to delete : ",
+                },
             ]);
             const { deleteStudentId } = deleteStudent;
             const deleteStudentfromArray = studentsArray.filter((student) => student.id !== deleteStudentId);
@@ -441,8 +477,8 @@ do {
                 {
                     type: "number",
                     name: "deleteInstructorId",
-                    message: "Enter instructor Id to delete : "
-                }
+                    message: "Enter instructor Id to delete : ",
+                },
             ]);
             const { deleteInstructorId } = deleteInstructor;
             const deleteInstructorfromArray = instructorArray.filter((instructor) => instructor.id !== deleteInstructorId);
@@ -455,8 +491,8 @@ do {
                 {
                     type: "number",
                     name: "deleteCoursesId",
-                    message: "Enter Course Id to delete : "
-                }
+                    message: "Enter Course Id to delete : ",
+                },
             ]);
             const { deleteCoursesId } = deleteCourses;
             const deleteCoursesfromArray = coursesArray.filter((course) => course.id !== deleteCoursesId);
