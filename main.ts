@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#! /usr/bin/env node
 
 import inquirer from "inquirer";
 
@@ -659,11 +659,12 @@ do {
       ]);
 
       const { deleteStudentId } = deleteStudent;
-      const deleteStudentfromArray = studentsArray.filter(
-        (student) => student.id !== deleteStudentId
+      const deleteStudentfromArray = studentsArray.findIndex(
+        (student) => student.id === deleteStudentId
       );
       console.log("Student deleted successfully!");
-      console.table(deleteStudentfromArray);
+      studentsArray.splice(deleteStudentfromArray, 1);
+      console.table(studentsArray);
     }
     if (optionsForDelete == "Instructor") {
       console.table(instructorArray);
@@ -677,11 +678,12 @@ do {
       ]);
 
       const { deleteInstructorId } = deleteInstructor;
-      const deleteInstructorfromArray = instructorArray.filter(
-        (instructor) => instructor.id !== deleteInstructorId
+      const deleteInstructorfromArray = instructorArray.findIndex(
+        (instructor) => instructor.id === deleteInstructorId
       );
       console.log("Instructor deleted successfully!");
-      console.table(deleteInstructorfromArray);
+      instructorArray.splice(deleteInstructorfromArray, 1);
+      console.table(instructorArray);
     }
 
     if (optionsForDelete == "Courses") {
@@ -696,10 +698,12 @@ do {
       ]);
 
       const { deleteCoursesId } = deleteCourses;
-      const deleteCoursesfromArray = coursesArray.filter(
-        (course) => course.id !== deleteCoursesId
+      const deleteCoursesfromArray = coursesArray.findIndex(
+        (course) => course.id === deleteCoursesId
       );
       console.log("Course deleted successfully!");
+      coursesArray.splice(deleteCoursesfromArray, 1);
+
       console.table(deleteCoursesfromArray);
     }
   }

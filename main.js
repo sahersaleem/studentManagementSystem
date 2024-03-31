@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#! /usr/bin/env node
 import inquirer from "inquirer";
 class Person {
     name;
@@ -327,7 +327,7 @@ do {
                 ]);
                 const { editCourseName, editCourseTimings } = editCourseAnswers;
                 coursesArray[indexOfEditCourse].name = editCourseName;
-                coursesArray[indexOfEditCourse] = editCourseTimings;
+                coursesArray[indexOfEditCourse].timings = editCourseTimings;
                 console.table(coursesArray);
             }
             else {
@@ -360,11 +360,6 @@ do {
             console.log("---------------Available Courses to enroll---------------------");
             console.table(coursesArray);
             const showStudentInCourses = await inquirer.prompt([
-                // {
-                //   type: "number",
-                //   name: "courseIdInAddStudent",
-                //   message: "Enter the course id to enroll in course",
-                // },
                 {
                     type: "list",
                     name: "courseSelect",
@@ -377,14 +372,7 @@ do {
             const findStudentIndex2 = studentsArray.findIndex((student) => student.id == studentId2);
             if (findStudentIndex2 !== -1) {
                 const findCoursesNameIndex = coursesArray.findIndex((course) => course.name == courseSelect);
-                // const studentName4 = studentsArray.filter(
-                //   (student) => student.name == studentsArray[findStudentIndex2].name
-                // );
-                // coursesArray[findCoursesName].name
                 if (!studentsArray[findStudentIndex2].courses.includes(coursesArray[findCoursesNameIndex])) {
-                    // studentsArray[findStudentIndex2].registeredForCourses(
-                    //   findCoursesName[0]
-                    // );
                     console.log("Course Information");
                     coursesArray[findCoursesNameIndex].addStudent(studentsArray[findStudentIndex2]);
                     console.table(coursesArray);
@@ -425,7 +413,7 @@ do {
                 }
             }
             else
-                (console.log("Course Already Assigned"));
+                console.log("Course Already Assigned");
         }
         if (viewOptionsList == "View Courses") {
             console.log("-----------------Available Courses------------------");
@@ -465,7 +453,7 @@ do {
                         console.table(studentsArray);
                     }
                     else {
-                        console.log('Student already added!');
+                        console.log("Student already added!");
                     }
                 }
             }
@@ -522,9 +510,10 @@ do {
                 },
             ]);
             const { deleteStudentId } = deleteStudent;
-            const deleteStudentfromArray = studentsArray.filter((student) => student.id !== deleteStudentId);
+            const deleteStudentfromArray = studentsArray.findIndex((student) => student.id === deleteStudentId);
             console.log("Student deleted successfully!");
-            console.table(deleteStudentfromArray);
+            studentsArray.splice(deleteStudentfromArray, 1);
+            console.table(studentsArray);
         }
         if (optionsForDelete == "Instructor") {
             console.table(instructorArray);
@@ -536,9 +525,10 @@ do {
                 },
             ]);
             const { deleteInstructorId } = deleteInstructor;
-            const deleteInstructorfromArray = instructorArray.filter((instructor) => instructor.id !== deleteInstructorId);
+            const deleteInstructorfromArray = instructorArray.findIndex((instructor) => instructor.id === deleteInstructorId);
             console.log("Instructor deleted successfully!");
-            console.table(deleteInstructorfromArray);
+            instructorArray.splice(deleteInstructorfromArray, 1);
+            console.table(instructorArray);
         }
         if (optionsForDelete == "Courses") {
             console.table(coursesArray);
@@ -550,8 +540,9 @@ do {
                 },
             ]);
             const { deleteCoursesId } = deleteCourses;
-            const deleteCoursesfromArray = coursesArray.filter((course) => course.id !== deleteCoursesId);
+            const deleteCoursesfromArray = coursesArray.findIndex((course) => course.id === deleteCoursesId);
             console.log("Course deleted successfully!");
+            coursesArray.splice(deleteCoursesfromArray, 1);
             console.table(deleteCoursesfromArray);
         }
     }
