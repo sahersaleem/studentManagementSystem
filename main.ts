@@ -116,18 +116,23 @@ do {
       {
         type: "string",
         name: "coursename",
-        message: "Enter course  name",
+        message: "Enter course name:",
       },
       {
         type: "input",
         name: "coursetimings",
-        message: "Enter course timings",
+        message: "Enter course timings:",
+      },
+      {
+        type: "number",
+        name: "coursefees",
+        message: "Enter course fees:",
       },
     ]);
 
-    const { coursename, coursetimings } = courseadd;
+    const { coursename, coursetimings, coursefees } = courseadd;
 
-    const course = new Course(coursename, coursetimings, 3000);
+    const course = new Course(coursename, coursetimings, coursefees);
     console.log(`Course added successfully`);
     coursesArray.push(course);
     console.table(course);
@@ -406,7 +411,7 @@ do {
 
         const { editCourseName, editCourseTimings } = editCourseAnswers;
         coursesArray[indexOfEditCourse].name = editCourseName;
-        coursesArray[indexOfEditCourse] = editCourseTimings;
+        coursesArray[indexOfEditCourse].timings = editCourseTimings;
         console.table(coursesArray);
       } else {
         console.log("Please Enter Some Courses");
@@ -424,8 +429,11 @@ do {
       },
     ]);
     const { viewOptionsList } = viewoptions;
+    //-------------------------------------------------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------------------------------------------------
 
     if (viewOptionsList == "View Student") {
+      console.log("-----------------Available Student------------------");
       console.table(studentsArray);
       const viewstudent = await inquirer.prompt([
         {
@@ -433,6 +441,15 @@ do {
           name: "studentId2",
           message: "Enter student id to enroll in Courses :",
         },
+      ]);
+
+      console.log(
+        "---------------Available Courses to enroll---------------------"
+      );
+
+      console.table(coursesArray);
+
+      const showStudentInCourses = await inquirer.prompt([
         {
           type: "list",
           name: "courseSelect",
@@ -440,30 +457,38 @@ do {
           choices: coursesArray.map((course) => course.name),
         },
       ]);
-      const { studentId2, courseSelect } = viewstudent;
-
+      const { studentId2 } = viewstudent;
+      const { courseSelect } = showStudentInCourses;
       const findStudentIndex2 = studentsArray.findIndex(
         (student) => student.id == studentId2
       );
 
       if (findStudentIndex2 !== -1) {
-        const findCoursesName = coursesArray.filter(
+        const findCoursesNameIndex = coursesArray.findIndex(
           (course) => course.name == courseSelect
         );
+        if (
+          !studentsArray[findStudentIndex2].courses.includes(
+            coursesArray[findCoursesNameIndex]
+          )
+        ) {
+          console.log("Course Information");
+          coursesArray[findCoursesNameIndex].addStudent(
+            studentsArray[findStudentIndex2]
+          );
+          console.table(coursesArray);
 
-        console.log(findCoursesName);
-
-        studentsArray[findStudentIndex2].registeredForCourses(
-          findCoursesName[0]
-        );
-
-        console.table(studentsArray);
-        console.log("COurse Information");
-        console.table(studentsArray[findStudentIndex2].courses);
+          console.log("Student Enrolled Successfully");
+          console.table(studentsArray);
+        } else {
+          console.log("Alreaady enrolled");
+        }
       }
     }
 
     if (viewOptionsList == "View Instructor") {
+      console.log("-----------------Available Instructor------------------");
+      console.table(instructorArray);
       const instructorView = await inquirer.prompt([
         {
           type: "number",
@@ -483,18 +508,32 @@ do {
         (instructor) => instructor.id == viewInstructorId
       );
       if (findViewInstructorId !== -1) {
-        const findCourseName = coursesArray.filter(
+        const findCourseName2 = coursesArray.findIndex(
           (course) => course.name == assignCourses
         );
 
-        instructorArray[findViewInstructorId].assignCourses(findCourseName[0]);
+        if (
+          !instructorArray[findViewInstructorId].courses.includes(
+            coursesArray[findCourseName2]
+          )
+        ) {
+          console.log("Course information");
+          coursesArray[findCourseName2].addInstructor(
+            instructorArray[findViewInstructorId]
+          );
+          console.table(coursesArray[findCourseName2]);
 
-        console.table(instructorArray[findViewInstructorId]);
+          console.log("Instructor added successfully!");
 
-        console.table(instructorArray[findViewInstructorId].courses);
-      }
+          console.table(instructorArray);
+        }
+      } else console.log("Course Already Assigned");
     }
+
     if (viewOptionsList == "View Courses") {
+      console.log("-----------------Available Courses------------------");
+      console.table(coursesArray);
+
       const addStudAndInstruc = await inquirer.prompt([
         {
           type: "list",
@@ -529,12 +568,24 @@ do {
         );
 
         if (findIndexofCourse !== -1) {
-          const findStudentName = studentsArray.filter(
+          const findStudentName2 = studentsArray.findIndex(
             (student) => student.name == addstudentChoices
           );
+          if (
+            !coursesArray[findIndexofCourse].student.includes(
+              studentsArray[findStudentName2]
+            )
+          ) {
+            coursesArray[findIndexofCourse].addStudent(
+              studentsArray[findStudentName2]
+            );
+            console.table(coursesArray);
 
-          coursesArray[findIndexofCourse].addStudent(findStudentName[0]);
-          console.table(coursesArray);
+            console.log("Student added successfully!");
+            console.table(studentsArray);
+          } else {
+            console.log("Student already added!");
+          }
         }
       }
 
@@ -553,7 +604,7 @@ do {
             choices: instructorArray.map((student) => student.name),
           },
         ]);
-
+        console.table(instructorArray);
         const { courseId, addTeacherChoices } = addTeacherInCourses;
 
         const findIndexofCourse = coursesArray.findIndex(
@@ -561,17 +612,29 @@ do {
         );
 
         if (findIndexofCourse !== -1) {
-          const findTeacherName = instructorArray.filter(
+          const findTeacherName = instructorArray.findIndex(
             (teacher) => teacher.name == addTeacherChoices
           );
 
-          coursesArray[findIndexofCourse].addInstructor(findTeacherName[0]);
-          console.table(coursesArray);
+          if (
+            !coursesArray[findIndexofCourse].instructor.includes(
+              instructorArray[findTeacherName]
+            )
+          ) {
+            coursesArray[findIndexofCourse].addInstructor(
+              instructorArray[findTeacherName]
+            );
+            console.table(coursesArray);
+
+            console.log("Instructor added successfully");
+            console.table(instructorArray);
+          } else {
+            console.log("Instructor added Already!");
+          }
         }
       }
     }
   }
-
   if (options == "Delete") {
     const deleteOptions = await inquirer.prompt([
       {

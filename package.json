@@ -1,6 +1,6 @@
 {
   "name": "@saher2006/student-management-system-2",
-  "version": "1.0.4",
+  "version": "1.1.5",
   "description": "",
   "main": "main.js",
   "type": "module",
@@ -12,11 +12,11 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "inquirer": "^9.2.16",
     "node": "^18.20.0"
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.7",
-    "@types/node": "^20.11.30",
-    "inquirer": "^9.2.16"
+    "@types/node": "^20.11.30"
   }
 }
