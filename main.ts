@@ -527,8 +527,8 @@ do {
 
           console.table(instructorArray);
         }
-      } else console.log("Course Already Assigned");
-    }
+       else{ console.log("Course Already Assigned")}
+    }}
 
     if (viewOptionsList == "View Courses") {
       console.log("-----------------Available Courses------------------");
